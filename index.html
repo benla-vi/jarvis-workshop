@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>המוח השני שלך — Jarvis AI Builders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --terra:   #d97753;
+    --terra-d: #c8622f;
+    --cream:   #f5f1e8;
+    --dark:    #1a1613;
+    --white:   #ffffff;
+    --muted:   rgba(26,22,19,.55);
+    --border:  rgba(26,22,19,.09);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── Layout ── */
+  .page { max-width: 680px; margin: 0 auto; padding: 48px 24px 96px; }
+
+  /* ── Header ── */
+  .header { text-align: center; margin-bottom: 56px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--dark); color: var(--terra);
+    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    padding: 6px 16px; border-radius: 100px; margin-bottom: 24px;
+  }
+  .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--terra); }
+  .header h1 { font-size: clamp(32px, 6vw, 52px); font-weight: 900; line-height: 1.15; }
+  .header h1 span { color: var(--terra); }
+  .header p { font-size: 18px; color: var(--muted); margin-top: 14px; }
+
+  /* ── Section title ── */
+  .section-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    color: var(--terra); letter-spacing: .1em; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::before { content: '›'; }
+
+  /* ── Steps ── */
+  .steps { display: flex; flex-direction: column; gap: 16px; margin-bottom: 56px; }
+  .step {
+    display: flex; gap: 20px; align-items: flex-start;
+    background: var(--white); border-radius: 16px;
+    padding: 20px 24px; border: 1px solid var(--border);
+  }
+  .step-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700;
+    color: var(--terra); background: rgba(217,119,87,.1);
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .step-body h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .step-body p { font-size: 15px; color: var(--muted); line-height: 1.5; }
+  .step-body code {
+    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    background: rgba(217,119,87,.1); color: var(--terra);
+    padding: 2px 8px; border-radius: 6px; direction: ltr; display: inline-block;
+  }
+
+  /* ── Prompt box ── */
+  .prompt-section { margin-bottom: 56px; }
+  .prompt-box {
+    background: var(--dark); border-radius: 16px; overflow: hidden;
+    border: 1px solid rgba(255,255,255,.08);
+  }
+  .prompt-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .prompt-header-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    color: rgba(255,255,255,.4);
+  }
+  .copy-btn {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--terra); color: white;
+    font-family: 'Heebo', sans-serif; font-size: 14px; font-weight: 700;
+    border: none; border-radius: 8px; padding: 8px 18px;
+    cursor: pointer; transition: background .15s;
+  }
+  .copy-btn:hover { background: var(--terra-d); }
+  .copy-btn.copied { background: #4caf50; }
+  .prompt-text {
+    padding: 24px 20px;
+    font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.7;
+    color: rgba(245,241,232,.8); white-space: pre-wrap; direction: rtl;
+    max-height: 400px; overflow-y: auto;
+  }
+  .prompt-text::-webkit-scrollbar { width: 4px; }
+  .prompt-text::-webkit-scrollbar-track { background: transparent; }
+  .prompt-text::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 2px; }
+
+  /* ── CTA ── */
+  .cta {
+    text-align: center; padding: 40px 24px;
+    background: var(--white); border-radius: 20px; border: 1px solid var(--border);
+  }
+  .cta p { font-size: 16px; color: var(--muted); margin-bottom: 6px; }
+  .cta strong { font-size: 22px; font-weight: 900; }
+  .cta a {
+    display: inline-block; margin-top: 20px;
+    font-family: 'JetBrains Mono', monospace; font-size: 15px;
+    color: var(--terra); text-decoration: none; letter-spacing: .05em;
+    border-bottom: 1px dashed rgba(217,119,87,.4); padding-bottom: 2px;
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center; margin-top: 56px;
+    font-size: 14px; color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge"><div class="badge-dot"></div> jarvis · ai builders israel · 07.05.2026</div>
+    <h1>בנה את <span>המוח השני</span><br>שלך עכשיו</h1>
+    <p>פרומפט אחד שהופך כל AI לעוזר שמכיר אותך</p>
+  </div>
+
+  <!-- Steps -->
+  <div class="section-label">workflow.md</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-body">
+        <h3>פתח Claude Desktop</h3>
+        <p>לחץ על <code>+ New Project</code> וקרא לו "המוח השני שלי"</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-body">
+        <h3>העתק את הפרומפט למטה</h3>
+        <p>לחץ "העתק פרומפט" ← הדבק בתיבת ה-Project Instructions ← שמור</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-body">
+        <h3>ענה על השאלות</h3>
+        <p>קלוד ישאל אותך שאלה אחת בכל פעם על העסק שלך, הסגנון, המטרות. תן תשובות קצרות וכנות.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-body">
+        <h3>קבל את ה-System Prompt שלך</h3>
+        <p>קלוד ייצור לך פרומפט מותאם אישית — העתק אותו והחלף את ה-Project Instructions.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">05</div>
+      <div class="step-body">
+        <h3>תתחיל לעבוד</h3>
+        <p>פתח שיחה חדשה בתוך ה-Project ושלח: <code>"יש לי פגישה מחר — תעזור לי להתכונן"</code></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prompt -->
+  <div class="prompt-section">
+    <div class="section-label">mega-prompt.txt</div>
+    <div class="prompt-box">
+      <div class="prompt-header">
+        <span class="prompt-header-label">העתק → הדבק ב-Project Instructions</span>
+        <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="9" height="9" rx="1.5" stroke="white" stroke-width="1.5"/><path d="M2 9V2h7" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+          העתק פרומפט
+        </button>
+      </div>
+      <div class="prompt-text" id="promptText">אני משתתף/ת בסדנה על "מוח שני" — בינה מלאכותית שמכירה אותי, עובדת בסגנון שלי, ועוזרת לי לנהל עסק.
+
+הרעיון: אני בונה System Prompt אחד שאכניס לקלוד Desktop.
+מאותו רגע — כל שיחה מתחילה עם ההקשר שלי. קלוד יודע מי אני, מה הסגנון שלי, מה המטרות שלי.
+זה הופך אותו מ-AI גנרי לעוזר אישי שמכיר אותי לעומק.
+
+המשימה שלך עכשיו:
+ראיין אותי. שאל אותי שאלה אחת בכל פעם — לא רשימה.
+לאחר שאספת מספיק מידע, כתוב לי System Prompt מלא ומוכן להדבקה.
+
+הנושאים שאתה צריך לכסות:
+1. מי אני ומה אני עושה — עסק, תפקיד, מה אני מוכר
+2. מי הלקוחות שלי — מי הם, מה הכאב שלהם
+3. הסגנון שלי — איך אני כותב, מה אסור, מה חייב
+4. המטרות שלי — מה אני רוצה להשיג ב-12 חודשים הקרובים
+5. מה תקוע — אתגרים שחוזרים, דברים שלא מתקדמים
+6. האנשים החשובים — שותפים, לקוחות מרכזיים, צוות
+7. הכלים שאני משתמש — ניהול משימות, CRM, תקשורת
+8. מה אני הכי שונא לעשות — מה שקלוד יכול לקחת ממני
+
+כשגמרת לאסוף מידע, כתוב את ה-System Prompt בפורמט:
+
+## מי אני
+[פסקה קצרה]
+
+## הסגנון שלי
+[כללי כתיבה ברורים]
+
+## המטרות שלי
+[מה חשוב עכשיו]
+
+## האנשים בחיי
+[מי כדאי לקלוד להכיר]
+
+## הכלים שלי
+[רשימה קצרה]
+
+## הכללים שלך
+- [כלל 1]
+- [כלל 2]
+- [כלל 3]
+
+## פתיחת כל סשן
+כשאני פותח שיחה חדשה, שאל אותי: "מה אנחנו עושים היום?"
+
+---
+התחל עכשיו — שאל אותי את השאלה הראשונה.</div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <p>צריך להוריד קלוד Desktop?</p>
+    <strong>claude.ai/download</strong>
+    <br>
+    <a href="https://claude.ai/download" target="_blank">claude.ai/download →</a>
+  </div>
+
+  <footer>made with Claude · AI Builders Israel · benla.vi</footer>
+</div>
+
+<script>
+function copyPrompt() {
+  const text = document.getElementById('promptText').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> הועתק!`;
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="9" height="9" rx="1.5" stroke="white" stroke-width="1.5"/><path d="M2 9V2h7" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg> העתק פרומפט`;
+    }, 2500);
+  });
+}
+</script>
+</body>
+</html>
